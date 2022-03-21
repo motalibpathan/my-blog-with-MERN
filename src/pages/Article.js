@@ -7,6 +7,7 @@ import articles from "./article-content";
 import NotFound from "./NotFound";
 
 const Article = () => {
+  console.log(process.env.REACT_APP_DB_ADDRESS);
   const { name } = useParams();
   const article = articles.find((article) => article.name === name);
 
@@ -14,7 +15,10 @@ const Article = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch(`/api/articles/${name}`);
+      const result = await fetch(
+        `${process.env.REACT_APP_DB_ADDRESS}/api/articles/${name}`,
+        { withCredentials: true }
+      );
       const body = await result.json();
       setArticleInfo(body);
     };
